@@ -28,7 +28,7 @@
         }
     </script>
     <style>
-        /* اضافه‌کردن مستقیم انیمیشن‌ها در CSS برای جلوگیری از مشکلات بارگذاری */
+        /* انیمیشن‌ها */
         @keyframes slideUp {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
@@ -89,7 +89,7 @@
             z-index: 10;
         }
 
-        /* Slide specific background variants */
+        /* استایل‌های اختصاصی پس‌زمینه */
         .slide-dark {
             background-color: #0A192F;
             color: #E6F1FF;
@@ -100,18 +100,17 @@
             color: white;
         }
 
-        /* Delay utilities for staggered animations */
+        /* تاخیر انیمیشن‌ها */
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
         .delay-400 { animation-delay: 400ms; }
         .delay-500 { animation-delay: 500ms; }
 
-        /* Hide elements initially before animation */
         .animate-on-load { opacity: 0; }
         .active .animate-on-load { animation: slideUp 0.6s ease-out forwards; }
 
-        /* Custom Scrollbar for tables */
+        /* اسکرول‌بار اختصاصی */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -127,7 +126,7 @@
             background: #94a3b8; 
         }
 
-        /* Controls */
+        /* ناوبری */
         #controls {
             position: absolute;
             bottom: 1.5rem;
@@ -136,15 +135,28 @@
             display: flex;
             gap: 1rem;
             align-items: center;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.9);
             padding: 0.5rem 1rem;
             border-radius: 9999px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(4px);
         }
-        .slide-dark ~ #controls {
-            background: rgba(10,25,47,0.8);
-            color: white;
+
+        /* === حل مشکل تصاویر (تضمین عدم بهم ریختگی صفحه) === */
+        #presentation-container img {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: cover; /* تصویر فضا را پر می‌کند بدون تغییر تناسب و دفرمه شدن */
+            display: block;
+        }
+
+        /* لوگوها و تصاویر حساس به بریدگی نباید کات شوند، بنابراین از contain استفاده می‌کنند */
+        #presentation-container img.logo-img,
+        #presentation-container img[src*="Logo"],
+        #presentation-container img[class*="object-contain"] {
+            object-fit: contain !important;
         }
     </style>
 </head>
@@ -155,9 +167,11 @@
         <!-- اسلاید 1 -->
         <div class="slide slide-dark justify-center items-center text-center" id="slide-1">
             <div class="w-1/2 flex flex-col items-center animate-on-load">
-                <img src="assets/Aloghesti-Logo-Horizontal.png" alt="Aloghesti Logo" 
-                     onerror="this.src='https://placehold.co/400x150/0A192F/FFFFFF?text=Aloghesti+Logo'" 
-                     class="max-w-[300px] mb-12">
+                <div class="w-[300px] h-[150px] mb-12">
+                    <img src="assets/Aloghesti-Logo-Horizontal.png" alt="Aloghesti Logo" 
+                         onerror="this.src='https://placehold.co/400x150/0A192F/FFFFFF?text=Aloghesti+Logo'" 
+                         class="logo-img">
+                </div>
                 <h1 class="text-5xl font-bold mb-8 text-white leading-tight">مشاهدات ۵ روزه من<br>از ژنتیک الوقسطی</h1>
                 <div class="w-24 h-1 bg-brand-accent mb-8 mx-auto"></div>
                 <p class="text-2xl text-gray-300 font-light mb-2">By Ali Samiee</p>
@@ -180,7 +194,7 @@
                     </div>
                     <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-accent text-white w-12 h-12 rounded-full flex items-center justify-center text-xl z-10 shadow-lg">VS</div>
                     <div class="w-1/2 flex flex-col items-center justify-center">
-                        <i class="fa-solid fa-engine text-6xl text-brand-accent mb-6"></i>
+                        <i class="fa-solid fa-gears text-6xl text-brand-navy mb-6"></i>
                         <h3 class="text-3xl font-bold text-brand-navy">Sales Engine</h3>
                         <p class="text-gray-500 mt-2 text-center text-sm px-4">هدف: پلتفرم هوشمند فروش اقساطی</p>
                     </div>
@@ -206,10 +220,11 @@
                         <p class="text-4xl font-bold text-brand-accent">KPI ۳</p>
                     </div>
                 </div>
-                <div class="w-2/3 h-full pb-16 animate-on-load delay-300">
+                <!-- والد محدود کننده ابعاد تصویر -->
+                <div class="w-2/3 h-[75%] pb-6 animate-on-load delay-300">
                     <img src="assets/تصویر کل دیتای سه ماهه الوقسطی.jpg" alt="دیتا سرچ کنسول" 
                          onerror="this.src='https://placehold.co/1000x600/112240/E6F1FF?text=Google+Search+Console+Data'" 
-                         class="w-full h-full object-cover rounded-2xl shadow-2xl border border-gray-700">
+                         class="rounded-2xl shadow-2xl border border-gray-700">
                 </div>
             </div>
         </div>
@@ -248,7 +263,6 @@
                     <p class="text-xl text-gray-600 border-r-4 border-brand-accent pr-4 py-2 bg-gray-50">ما کاربران را جذب می‌کنیم، اما قیف فروش سوراخ است.</p>
                 </div>
                 <div class="w-2/3 flex justify-center animate-on-load delay-200 relative">
-                    <!-- CSS Funnel Representation -->
                     <div class="flex flex-col items-center w-full max-w-md relative">
                         <div class="w-full bg-brand-navy text-white text-center py-6 rounded-t-lg font-bold text-2xl relative">
                             ورودی بالا (ترافیک)
@@ -256,7 +270,6 @@
                         </div>
                         <div class="w-4/5 bg-brand-blue text-white text-center py-5 mt-1 font-bold text-xl relative">
                             بازدید صفحه
-                            <!-- Leaks -->
                             <i class="fa-solid fa-droplet text-brand-accent absolute -left-6 top-4 text-xl rotate-[60deg]"></i>
                             <i class="fa-solid fa-droplet text-brand-accent absolute -right-6 top-4 text-xl -rotate-[60deg]"></i>
                         </div>
@@ -335,23 +348,29 @@
             <h2 class="text-3xl font-bold text-brand-navy mb-8 animate-on-load">کاربر دنبال اقساط است؛ ما درباره برند صحبت می‌کنیم</h2>
             
             <div class="flex gap-8 h-[70%] animate-on-load delay-200">
+                <!-- نگهدارنده تصویر ۱ -->
                 <div class="w-1/2 flex flex-col items-center">
-                    <div class="bg-white p-4 rounded-xl shadow-lg border border-red-100 w-full h-full flex flex-col relative">
-                        <span class="absolute -top-4 -right-4 bg-red-500 text-white px-4 py-1 rounded-full text-sm shadow-md">محتوای صفحه</span>
-                        <img src="assets/چرا گوشی شیائومی؟ .jpg" alt="چرا گوشی شیائومی" 
-                             onerror="this.src='https://placehold.co/600x400/fff5f5/e53e3e?text=Content:+Brand+Review'" 
-                             class="w-full h-full object-cover rounded-lg">
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-red-100 w-full h-full flex flex-col relative overflow-hidden">
+                        <span class="absolute top-2 right-2 bg-red-500 text-white px-4 py-1 rounded-full text-xs shadow-md z-10">محتوای صفحه</span>
+                        <div class="w-full h-full">
+                            <img src="assets/چرا گوشی شیائومی؟ .jpg" alt="چرا گوشی شیائومی" 
+                                 onerror="this.src='https://placehold.co/600x400/fff5f5/e53e3e?text=Content:+Brand+Review'" 
+                                 class="rounded-lg">
+                        </div>
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
                     <i class="fa-solid fa-bolt text-4xl text-gray-300"></i>
                 </div>
+                <!-- نگهدارنده تصویر ۲ -->
                 <div class="w-1/2 flex flex-col items-center">
-                    <div class="bg-white p-4 rounded-xl shadow-lg border border-green-100 w-full h-full flex flex-col relative">
-                        <span class="absolute -top-4 -left-4 bg-green-500 text-white px-4 py-1 rounded-full text-sm shadow-md">نیاز کاربر (Search Intent)</span>
-                        <img src="assets/گوشی شیائومی سرچ کنسول.jpg" alt="گوشی شیائومی سرچ کنسول" 
-                             onerror="this.src='https://placehold.co/600x400/f0fff4/38a169?text=Intent:+Installment+Buy'" 
-                             class="w-full h-full object-cover rounded-lg">
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-green-100 w-full h-full flex flex-col relative overflow-hidden">
+                        <span class="absolute top-2 left-2 bg-green-500 text-white px-4 py-1 rounded-full text-xs shadow-md z-10">نیاز کاربر (Search Intent)</span>
+                        <div class="w-full h-full">
+                            <img src="assets/گوشی شیائومی سرچ کنسول.jpg" alt="گوشی شیائومی سرچ کنسول" 
+                                 onerror="this.src='https://placehold.co/600x400/f0fff4/38a169?text=Intent:+Installment+Buy'" 
+                                 class="rounded-lg">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -364,18 +383,20 @@
                     <h2 class="text-3xl font-bold text-brand-navy">لندینگ‌ها فروشنده نیستند</h2>
                     <p class="text-gray-500">ماهیت کاملاً وبلاگی در صفحاتی که باید موتور فروش باشند.</p>
                 </div>
-                <div class="flex gap-6 flex-1 animate-on-load delay-200">
-                    <div class="w-2/3 h-full relative group">
+                <div class="flex gap-6 flex-1 h-[70%] animate-on-load delay-200">
+                    <div class="w-2/3 h-full relative group rounded-xl overflow-hidden">
                         <div class="absolute inset-0 bg-yellow-400/20 z-10 border-4 border-yellow-400 rounded-xl pointer-events-none mix-blend-multiply"></div>
                         <span class="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded shadow z-20 text-sm">هایلایت بخش محتوایی</span>
                         <img src="assets/ماهیت کاملاً وبلاگی صفحه .jpg" alt="صفحه لپ تاپ" 
                              onerror="this.src='https://placehold.co/800x600/f8fafc/64748b?text=Landing+Page+Screenshot'" 
-                             class="w-full h-full object-cover rounded-xl shadow-lg">
+                             class="rounded-xl shadow-lg">
                     </div>
                     <div class="w-1/3 h-full flex flex-col gap-4">
-                        <img src="assets/لپ تاپ قسطی سرچ کنسول.jpg" alt="سرچ کنسول لپ تاپ" 
-                             onerror="this.src='https://placehold.co/400x300/f1f5f9/94a3b8?text=Search+Queries'" 
-                             class="w-full h-1/2 object-cover rounded-xl shadow-lg border border-gray-200">
+                        <div class="h-1/2 w-full overflow-hidden rounded-xl">
+                            <img src="assets/لپ تاپ قسطی سرچ کنسول.jpg" alt="سرچ کنسول لپ تاپ" 
+                                 onerror="this.src='https://placehold.co/400x300/f1f5f9/94a3b8?text=Search+Queries'" 
+                                 class="rounded-xl shadow-lg border border-gray-200">
+                        </div>
                         <div class="bg-gray-100 rounded-xl p-6 h-1/2 border border-gray-200 flex flex-col justify-center">
                             <i class="fa-solid fa-triangle-exclamation text-4xl text-orange-500 mb-4"></i>
                             <h3 class="font-bold text-xl mb-2">نتیجه:</h3>
@@ -396,16 +417,18 @@
                     </p>
                 </div>
                 <div class="w-2/3 flex gap-4 h-[70%] animate-on-load delay-300">
-                     <div class="w-1/2 relative">
+                     <div class="w-1/2 relative h-full rounded-xl overflow-hidden">
                          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-10">وضعیت فعلی</span>
                          <img src="assets/تغییر تایتیل محصولات با کلمه قسطی. .jpg" alt="کارت محصول قیمت کل" 
                               onerror="this.src='https://placehold.co/400x500/112240/ef4444?text=Full+Price+Displayed'" 
-                              class="w-full h-full object-cover rounded-xl border border-gray-600 shadow-2xl opacity-80">
+                              class="rounded-xl border border-gray-600 shadow-2xl opacity-80">
                      </div>
-                     <div class="w-1/2 relative">
+                     <div class="w-1/2 relative h-full">
                         <span class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded z-10">راهکار پیشنهادی</span>
                         <div class="w-full h-full bg-white rounded-xl shadow-2xl flex flex-col justify-center items-center p-6 border-4 border-brand-accent">
-                            <div class="w-32 h-32 bg-gray-200 rounded-lg mb-4"></div>
+                            <div class="w-32 h-32 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                                <i class="fa-solid fa-mobile-screen text-4xl text-gray-400"></i>
+                            </div>
                             <h4 class="font-bold text-brand-navy mb-4">گوشی سامسونگ S24</h4>
                             <div class="bg-gray-100 w-full p-3 rounded-lg text-center line-through text-gray-400 mb-2">۶۰,۰۰۰,۰۰۰ تومان</div>
                             <div class="bg-green-50 w-full p-4 rounded-lg text-center border border-green-200">
@@ -424,18 +447,22 @@
             <p class="text-gray-500 mb-8 animate-on-load">هدررفت عظیم Link Equity در لینک‌سازی‌های داخلی و خارجی</p>
 
             <div class="flex gap-8 h-[65%] animate-on-load delay-200">
-                <div class="w-1/2 bg-white rounded-xl shadow-md border border-gray-200 p-4 flex flex-col">
+                <div class="w-1/2 bg-white rounded-xl shadow-md border border-gray-200 p-4 flex flex-col overflow-hidden">
                     <h3 class="text-center font-bold text-gray-700 mb-4">لینک‌ها به صفحه دسته‌بندی عمومی</h3>
-                    <img src="assets/کل لینک ها به صفحه گوشی موبایل.jpg" alt="لینک به گوشی موبایل" 
-                         onerror="this.src='https://placehold.co/600x400/f8fafc/94a3b8?text=Links+to+General+Category'" 
-                         class="w-full flex-1 object-cover rounded">
+                    <div class="w-full h-[85%]">
+                        <img src="assets/کل لینک ها به صفحه گوشی موبایل.jpg" alt="لینک به گوشی موبایل" 
+                             onerror="this.src='https://placehold.co/600x400/f8fafc/94a3b8?text=Links+to+General+Category'" 
+                             class="rounded">
+                    </div>
                 </div>
-                <div class="w-1/2 bg-white rounded-xl shadow-md border border-brand-accent p-4 flex flex-col relative">
-                    <div class="absolute -top-3 -right-3 bg-brand-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-bold"><i class="fa-solid fa-check"></i></div>
+                <div class="w-1/2 bg-white rounded-xl shadow-md border border-brand-accent p-4 flex flex-col relative overflow-hidden">
+                    <div class="absolute -top-1 -right-1 bg-brand-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-bold z-10"><i class="fa-solid fa-check"></i></div>
                     <h3 class="text-center font-bold text-brand-navy mb-4">لینک‌ها به صفحه هدف (قسطی)</h3>
-                    <img src="assets/کل لینک ها به صفحه گوشی موبایل با کلمه قسطی.jpg" alt="لینک قسطی" 
-                         onerror="this.src='https://placehold.co/600x400/fff5f0/FF6B35?text=Links+to+Installment+Category'" 
-                         class="w-full flex-1 object-cover rounded">
+                    <div class="w-full h-[85%]">
+                        <img src="assets/کل لینک ها به صفحه گوشی موبایل با کلمه قسطی.jpg" alt="لینک قسطی" 
+                             onerror="this.src='https://placehold.co/600x400/fff5f0/FF6B35?text=Links+to+Installment+Category'" 
+                             class="rounded">
+                    </div>
                 </div>
             </div>
         </div>
@@ -448,13 +475,13 @@
                     <h2 class="text-4xl font-bold text-brand-navy mb-4">حتی در بررسی اولیه نیز مشکلات تکراری دیده می‌شود</h2>
                     <p class="text-lg text-gray-600">وجود فرصت‌های تکنیکال سریع (Quick Wins) که با یک تغییر ساختاری اصلاح می‌شوند.</p>
                 </div>
-                <div class="w-2/3 h-[80%] animate-on-load delay-200 relative">
+                <div class="w-2/3 h-[80%] animate-on-load delay-200 relative overflow-hidden rounded-2xl">
                     <img src="assets/خطای کد. تکرار مشاوره و خرید رایگان در همه صفحات. .jpg" alt="خطای کد" 
                          onerror="this.src='https://placehold.co/800x600/1e293b/10b981?text=Source+Code+Error:+Repeated+Blocks'" 
-                         class="w-full h-full object-cover rounded-2xl shadow-2xl border-4 border-gray-800 font-mono">
+                         class="rounded-2xl shadow-2xl border-4 border-gray-800">
                     <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg border-r-4 border-red-500">
                         <p class="font-bold text-red-600">مشکل:</p>
-                        <p class="text-sm">تکرار بلوک "مشاوره و خرید رایگان" در کد تمام صفحات</p>
+                        <p class="text-sm text-gray-800">تکرار بلوک "مشاوره و خرید رایگان" در کد تمام صفحات</p>
                     </div>
                 </div>
             </div>
@@ -465,7 +492,6 @@
             <h2 class="text-3xl font-bold mb-12 animate-on-load text-center">محصولات ناموجود؛ تهدید خاموش</h2>
             
             <div class="flex justify-center items-center h-full pb-20 animate-on-load delay-200">
-                <!-- Flowchart -->
                 <div class="flex flex-col items-center">
                     <div class="bg-gray-800 border-2 border-gray-600 text-white px-8 py-4 rounded-xl text-2xl font-bold w-64 text-center z-10 shadow-lg">
                         Out Of Stock
@@ -498,7 +524,7 @@
             </div>
         </div>
 
-        <!-- اسلاید 13 -->
+        <!-- اسلاید 13 (تکمیل شده) -->
         <div class="slide" id="slide-13">
             <div class="text-center w-full mb-12 animate-on-load">
                 <h2 class="text-4xl font-bold text-brand-navy mb-4">آیا KPIها درست انتخاب شده‌اند؟</h2>
@@ -521,545 +547,86 @@
                 </div>
                 
                 <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:border-gray-300 transition delay-200">
-                    <div class="absolute inset-0 bg-red-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-                    <i class="fa-solid fa-pen-nib text-4xl text-gray-400 mb-4 relative z-10"></i>
-                    <h3 class="text-2xl font-bold text-gray-700 relative z-10">Blog Growth</h3>
-                    <p class="text-sm text-gray-500 mt-2 relative z-10 line-through">تولید محتوای انبوه مجله‌ای</p>
+                    <div class="absolute inset-0 bg-green-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <i class="fa-solid fa-user-check text-4xl text-brand-accent2 mb-4 relative z-10"></i>
+                    <h3 class="text-2xl font-bold text-brand-navy relative z-10">Conversion Rate</h3>
+                    <p class="text-sm text-brand-navy mt-2 relative z-10 font-bold">کیفیت ورودی و نرخ تبدیل به خریدار</p>
                 </div>
-                
-                <div class="bg-brand-navy rounded-2xl shadow-xl border border-brand-accent p-6 flex flex-col justify-center items-center text-center relative transform scale-105 z-10 delay-300">
-                    <i class="fa-solid fa-sack-dollar text-5xl text-brand-accent mb-4"></i>
-                    <h3 class="text-3xl font-bold text-white mb-2">Revenue</h3>
-                    <p class="text-brand-light font-bold">معیار نهایی: درآمد حاصل از فروش اقساطی</p>
+
+                <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group hover:border-gray-300 transition delay-300">
+                    <div class="absolute inset-0 bg-green-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                    <i class="fa-solid fa-sack-dollar text-4xl text-brand-accent mb-4 relative z-10"></i>
+                    <h3 class="text-2xl font-bold text-brand-navy relative z-10">Revenue & Margin</h3>
+                    <p class="text-sm text-brand-navy mt-2 relative z-10 font-bold">سودآوری نهایی حاصل از کانال سئو</p>
                 </div>
             </div>
         </div>
 
-        <!-- اسلاید 14 -->
-        <div class="slide slide-accent justify-center items-center text-center" id="slide-14">
-            <div class="animate-on-load">
-                <i class="fa-solid fa-seedling text-7xl mb-8 text-white/80"></i>
-                <h2 class="text-5xl font-bold mb-6 text-white leading-tight">فرصت‌های رشد<br>همین حالا وجود دارند</h2>
-                <div class="inline-block border-2 border-white/50 rounded-full px-8 py-3 mt-4">
-                    <p class="text-2xl font-light tracking-wider">Low Hanging Fruits</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 15 -->
-        <div class="slide" id="slide-15">
-            <h2 class="text-4xl font-bold text-brand-navy mb-12 animate-on-load">معدن طلای ۹۰ روز اول</h2>
-            
-            <div class="flex gap-6 h-full pb-16 animate-on-load delay-200">
-                <div class="w-1/3 bg-white rounded-2xl shadow-lg border-t-8 border-brand-accent p-8 relative overflow-hidden group hover:-translate-y-2 transition-transform">
-                    <div class="absolute -right-4 -top-4 text-8xl text-gray-100 opacity-50 z-0"><i class="fa-solid fa-1"></i></div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-4 relative z-10 pt-4">تبدیل کاتالوگ به فروشگاه</h3>
-                    <p class="text-gray-600 relative z-10 leading-relaxed">اصلاح محتوای صفحات دسته‌بندی و لیست محصولات از حالت معرفی به صفحات متمرکز بر فروش اقساطی.</p>
-                </div>
-                
-                <div class="w-1/3 bg-white rounded-2xl shadow-lg border-t-8 border-brand-accent p-8 relative overflow-hidden group hover:-translate-y-2 transition-transform delay-100">
-                    <div class="absolute -right-4 -top-4 text-8xl text-gray-100 opacity-50 z-0"><i class="fa-solid fa-2"></i></div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-4 relative z-10 pt-4">بهینه‌سازی ساختار محتوا</h3>
-                    <p class="text-gray-600 relative z-10 leading-relaxed">اصلاح Heading ها در راستای نیت کاربر (Search Intent) و تزریق کلمات کلیدی پول‌ساز در ساختار صفحه.</p>
-                </div>
-                
-                <div class="w-1/3 bg-white rounded-2xl shadow-lg border-t-8 border-brand-accent p-8 relative overflow-hidden group hover:-translate-y-2 transition-transform delay-200">
-                    <div class="absolute -right-4 -top-4 text-8xl text-gray-100 opacity-50 z-0"><i class="fa-solid fa-3"></i></div>
-                    <h3 class="text-xl font-bold text-brand-navy mb-4 relative z-10 pt-4">ارتقای صفحات محصول</h3>
-                    <p class="text-gray-600 relative z-10 leading-relaxed">آپدیت محتوایی صفحات محصول برای پاسخگویی به سوالات خریداران اقساطی و ایجاد ترغیب برای ثبت سفارش.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 16 -->
-        <div class="slide slide-dark" id="slide-16">
-            <h2 class="text-3xl font-bold mb-4 animate-on-load">CTR؛ سریع‌ترین مسیر رشد</h2>
-            <p class="text-gray-400 mb-8 animate-on-load">جذب کلیک بیشتر بدون نیاز به تغییر رتبه در کوتاه‌مدت</p>
-            
-            <div class="h-[65%] w-full animate-on-load delay-200">
-                <img src="assets/مقایسه دو نوع تایتل و دیسکریپشن و تفاوت بازاریابی محتوایی.jpg" alt="مقایسه Title و Description" 
-                     onerror="this.src='https://placehold.co/1200x500/112240/FF6B35?text=Title+%26+Description+Comparison'" 
-                     class="w-full h-full object-contain bg-brand-blue rounded-xl p-4 border border-gray-700 shadow-2xl">
-            </div>
-        </div>
-
-        <!-- اسلاید 17 -->
-        <div class="slide" id="slide-17">
-            <h2 class="text-3xl font-bold text-brand-navy mb-8 animate-on-load text-center">هزاران لندینگ در دل فیلترها پنهان شده‌اند</h2>
-            
-            <div class="flex justify-center items-center h-[70%] animate-on-load delay-200">
-                <!-- Abstract Diagram for Faceted Nav -->
-                <div class="relative w-full max-w-4xl h-full flex flex-col items-center justify-center">
-                    <div class="bg-brand-navy text-white px-8 py-4 rounded-xl text-xl font-bold z-10 shadow-lg mb-8">
-                        گوشی موبایل قسطی
-                    </div>
-                    
-                    <div class="flex gap-4 w-full justify-between">
-                        <!-- Path 1 -->
-                        <div class="flex flex-col items-center flex-1">
-                            <i class="fa-solid fa-arrow-down text-gray-300 mb-4"></i>
-                            <div class="bg-white border-2 border-gray-200 px-4 py-2 rounded-lg text-center shadow text-sm w-full font-bold mb-2">+ سامسونگ</div>
-                            <div class="bg-green-50 border border-green-200 text-green-700 px-2 py-2 rounded text-xs text-center w-full shadow-sm">لندینگ: گوشی سامسونگ قسطی<br>(ظرفیت سئو عالی)</div>
-                        </div>
-                        
-                        <!-- Path 2 -->
-                        <div class="flex flex-col items-center flex-1">
-                            <i class="fa-solid fa-arrow-down text-gray-300 mb-4"></i>
-                            <div class="bg-white border-2 border-gray-200 px-4 py-2 rounded-lg text-center shadow text-sm w-full font-bold mb-2">+ تا ۲۰ میلیون</div>
-                            <div class="bg-green-50 border border-green-200 text-green-700 px-2 py-2 rounded text-xs text-center w-full shadow-sm">لندینگ: گوشی قسطی تا ۲۰ میلیون<br>(Long-tail جذاب)</div>
-                        </div>
-
-                        <!-- Path 3 -->
-                        <div class="flex flex-col items-center flex-1">
-                            <i class="fa-solid fa-arrow-down text-gray-300 mb-4"></i>
-                            <div class="bg-white border-2 border-gray-200 px-4 py-2 rounded-lg text-center shadow text-sm w-full font-bold mb-2">+ سامسونگ + سری S</div>
-                            <div class="bg-green-50 border border-green-200 text-green-700 px-2 py-2 rounded text-xs text-center w-full shadow-sm">لندینگ: سامسونگ سری S قسطی<br>(نرخ تبدیل بالا)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute bottom-0 bg-brand-accent/10 border border-brand-accent/30 text-brand-navy px-6 py-3 rounded-xl font-bold shadow-sm backdrop-blur-sm">
-                        آزادسازی پتانسیل فیلترها (Faceted Navigation) = خلق هزاران صفحه هدفمند بدون تولید محصول جدید
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 18 -->
-        <div class="slide" id="slide-18">
-            <h2 class="text-3xl font-bold text-brand-navy mb-8 animate-on-load">اعتماد مهم‌ترین دارایی یک کسب‌وکار اعتباری است</h2>
-            
-            <div class="flex h-[70%] gap-8 items-center animate-on-load delay-200">
-                <div class="w-1/3 flex flex-col gap-6">
-                    <div class="bg-blue-50 border-r-4 border-blue-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-blue-900 text-xl mb-1">YMYL</h4>
-                        <p class="text-sm text-gray-600">Your Money or Your Life<br>حساسیت بالای گوگل روی سایت‌های مالی</p>
-                    </div>
-                    <div class="bg-purple-50 border-r-4 border-purple-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-purple-900 text-xl mb-1">E-E-A-T</h4>
-                        <p class="text-sm text-gray-600">تجربه، تخصص، اعتبار، اعتماد<br>نیاز به سیگنال‌های قوی در محتوا و برند</p>
-                    </div>
-                    <div class="bg-green-50 border-r-4 border-green-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-green-900 text-xl mb-1">Schema</h4>
-                        <p class="text-sm text-gray-600">داده‌های ساختاریافته برای تفهیم دقیق شرایط اقساط به ربات‌ها</p>
-                    </div>
-                </div>
-                <div class="w-2/3 h-full">
-                    <img src="assets/تصویر فرصت هایی برای وبلاگ .jpg" alt="فرصت های وبلاگ" 
-                         onerror="this.src='https://placehold.co/800x600/f8fafc/cbd5e1?text=Blog+Opportunities+for+Trust'" 
-                         class="w-full h-full object-cover rounded-xl shadow-lg border border-gray-200">
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 19 -->
-        <div class="slide slide-dark justify-center items-center text-center" id="slide-19">
-            <div class="animate-on-load">
-                <p class="text-brand-accent text-2xl mb-4 tracking-widest">نقشه راه - قدم اول</p>
-                <h2 class="text-6xl font-bold mb-8 text-white leading-tight">فاز اول: نجات و بازپس‌گیری<br>سهم بازار</h2>
-                <div class="inline-block bg-white/10 backdrop-blur border border-white/20 rounded-full px-10 py-4 mt-4">
-                    <p class="text-3xl text-brand-accent2 font-bold"><i class="fa-regular fa-clock ml-2"></i> مدت زمان: ۹۰ روز</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 20 -->
-        <div class="slide" id="slide-20">
-            <h2 class="text-4xl font-bold text-brand-navy mb-16 animate-on-load text-center">خروجی مورد انتظار فاز اول</h2>
-            
-            <div class="flex justify-center gap-12 h-1/2 animate-on-load delay-200">
-                <div class="flex flex-col items-center justify-center w-64 h-64 bg-red-50 rounded-full border-8 border-red-100 shadow-xl relative group">
-                    <i class="fa-solid fa-hand text-5xl text-red-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold text-gray-800">Stop Decline</h3>
-                    <p class="text-sm text-gray-500 text-center mt-2 px-4">توقف روند ریزش رتبه‌ها</p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center w-64 h-64 bg-blue-50 rounded-full border-8 border-blue-100 shadow-xl relative group mt-12">
-                    <i class="fa-solid fa-mouse-pointer text-5xl text-blue-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold text-gray-800">CTR Growth</h3>
-                    <p class="text-sm text-gray-500 text-center mt-2 px-4">افزایش نرخ کلیک با اصلاح عناوین</p>
-                </div>
-                
-                <div class="flex flex-col items-center justify-center w-64 h-64 bg-green-50 rounded-full border-8 border-green-100 shadow-xl relative group">
-                    <i class="fa-solid fa-cart-shopping text-5xl text-green-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-xl font-bold text-gray-800">Conversion</h3>
-                    <p class="text-sm text-gray-500 text-center mt-2 px-4">رشد تبدیل با بهبود لندینگ‌ها</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 21 -->
-        <div class="slide slide-dark justify-center items-center text-center" id="slide-21">
-            <div class="animate-on-load">
-                <p class="text-brand-accent text-2xl mb-4 tracking-widest">نقشه راه - قدم دوم</p>
-                <h2 class="text-6xl font-bold mb-8 text-white leading-tight">فاز دوم: خلق<br>تجربه کاربری متفاوت</h2>
-                <div class="inline-block bg-white/10 backdrop-blur border border-white/20 rounded-full px-10 py-4 mt-4">
-                    <p class="text-3xl text-brand-accent2 font-bold"><i class="fa-regular fa-calendar-alt ml-2"></i> مدت زمان: ۶ تا ۹ ماه</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 22 -->
-        <div class="slide" id="slide-22">
-            <div class="flex h-full items-center">
-                <div class="w-1/3 pr-8 animate-on-load">
-                    <h2 class="text-4xl font-bold text-brand-navy mb-6 leading-tight">ماشین حساب هوشمند اقساط</h2>
-                    <p class="text-lg text-gray-600 mb-6">ابزاری تعاملی که کاربر را در صفحه نگه می‌دارد، اعتماد می‌سازد و مستقیماً او را به سمت خرید هدایت می‌کند.</p>
-                    <ul class="space-y-3 text-gray-700">
-                        <li><i class="fa-solid fa-check text-green-500 ml-2"></i> افزایش Dwell Time</li>
-                        <li><i class="fa-solid fa-check text-green-500 ml-2"></i> شفافیت مالی کامل</li>
-                        <li><i class="fa-solid fa-check text-green-500 ml-2"></i> تولید Lead با کیفیت</li>
-                    </ul>
-                </div>
-                <div class="w-2/3 flex justify-center animate-on-load delay-200">
-                    <!-- Calculator Mockup -->
-                    <div class="bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 w-full max-w-lg overflow-hidden">
-                        <div class="bg-brand-navy p-6 text-white text-center">
-                            <h3 class="text-xl font-bold">محاسبه‌گر اقساط الوقسطی</h3>
-                        </div>
-                        <div class="p-8">
-                            <div class="mb-6">
-                                <label class="block text-sm text-gray-500 mb-2">مبلغ کالا (تومان)</label>
-                                <div class="w-full bg-gray-100 h-10 rounded-lg flex items-center px-4 font-bold text-gray-700 border border-gray-200">۵۰,۰۰۰,۰۰۰</div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block text-sm text-gray-500 mb-2">پیش پرداخت: ۳۰٪</label>
-                                <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-brand-accent h-full w-[30%]"></div>
-                                </div>
-                            </div>
-                            <div class="mb-8">
-                                <label class="block text-sm text-gray-500 mb-2">تعداد اقساط: ۱۲ ماهه</label>
-                                <div class="flex justify-between gap-2">
-                                    <div class="flex-1 bg-gray-100 py-2 rounded text-center text-sm border border-gray-200">۳</div>
-                                    <div class="flex-1 bg-gray-100 py-2 rounded text-center text-sm border border-gray-200">۶</div>
-                                    <div class="flex-1 bg-brand-navy text-white py-2 rounded text-center text-sm font-bold shadow-md">۱۲</div>
-                                    <div class="flex-1 bg-gray-100 py-2 rounded text-center text-sm border border-gray-200">۲۴</div>
-                                </div>
-                            </div>
-                            <div class="bg-green-50 border border-green-100 p-4 rounded-xl text-center mb-6">
-                                <p class="text-sm text-green-800 mb-1">مبلغ هر قسط</p>
-                                <p class="text-3xl font-bold text-green-600">۳,۵۰۰,۰۰۰ <span class="text-sm font-normal">تومان</span></p>
-                            </div>
-                            <button class="w-full bg-brand-accent text-white py-3 rounded-xl font-bold text-lg hover:bg-orange-600 transition shadow-lg">ثبت درخواست اعتبارسنجی</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 23 -->
-        <div class="slide slide-dark" id="slide-23">
-            <h2 class="text-4xl font-bold text-center mb-16 animate-on-load">از وب‌سایت به پلتفرم تصمیم‌گیری</h2>
-            
-            <div class="flex justify-center items-center h-1/2 gap-16 animate-on-load delay-200">
-                <div class="flex flex-col items-center text-center max-w-[250px]">
-                    <div class="w-24 h-24 bg-blue-900/50 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/30">
-                        <i class="fa-solid fa-database text-4xl text-blue-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">BigQuery</h3>
-                    <p class="text-gray-400 text-sm">تجمیع داده‌های کاربران، سرچ و فروش برای تحلیل رفتار مشتری.</p>
-                </div>
-                
-                <i class="fa-solid fa-chevron-left text-3xl text-brand-accent opacity-50"></i>
-                
-                <div class="flex flex-col items-center text-center max-w-[250px]">
-                    <div class="w-24 h-24 bg-purple-900/50 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/30">
-                        <i class="fa-solid fa-chart-pie text-4xl text-purple-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Dashboard</h3>
-                    <p class="text-gray-400 text-sm">داشبوردهای مدیریتی زنده برای مشاهده وضعیت قیف فروش.</p>
-                </div>
-                
-                <i class="fa-solid fa-chevron-left text-3xl text-brand-accent opacity-50"></i>
-                
-                <div class="flex flex-col items-center text-center max-w-[250px]">
-                    <div class="w-24 h-24 bg-green-900/50 rounded-2xl flex items-center justify-center mb-6 border border-green-500/30">
-                        <i class="fa-solid fa-robot text-4xl text-green-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Automation</h3>
-                    <p class="text-gray-400 text-sm">خودکارسازی فرآیندهای سئو و مارکتینگ بر اساس دیتای واقعی.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 24 -->
-        <div class="slide" id="slide-24">
-            <h2 class="text-4xl font-bold text-brand-navy mb-16 animate-on-load text-center">سه سناریوی رشد</h2>
-            
-            <div class="flex gap-8 h-1/2 w-5/6 mx-auto animate-on-load delay-200 items-end pb-8">
-                <!-- Bad -->
-                <div class="w-1/3 bg-gray-50 border border-gray-200 rounded-t-2xl relative flex flex-col items-center p-6 h-[60%] hover:bg-gray-100 transition">
-                    <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center absolute -top-8 border-4 border-white shadow-md">
-                        <i class="fa-solid fa-face-frown text-2xl text-gray-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-700 mt-6 mb-2">بدبینانه</h3>
-                    <p class="text-center text-sm text-gray-500">حفظ وضع موجود و جلوگیری از ریزش بیشتر ترافیک.</p>
-                </div>
-                
-                <!-- Realistic -->
-                <div class="w-1/3 bg-blue-50 border border-blue-200 rounded-t-2xl relative flex flex-col items-center p-6 h-[80%] hover:bg-blue-100 transition shadow-lg z-10">
-                    <div class="w-16 h-16 bg-brand-blue rounded-full flex items-center justify-center absolute -top-8 border-4 border-white shadow-md">
-                        <i class="fa-solid fa-face-smile text-2xl text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-brand-blue mt-6 mb-2">واقع‌بینانه</h3>
-                    <p class="text-center text-sm text-gray-600">بازیابی رتبه‌های از دست رفته و بازگشت به صفحه اول در کلمات کلیدی اصلی.</p>
-                </div>
-                
-                <!-- Optimistic -->
-                <div class="w-1/3 bg-orange-50 border border-orange-200 rounded-t-2xl relative flex flex-col items-center p-6 h-[100%] hover:bg-orange-100 transition shadow-xl z-20">
-                    <div class="w-20 h-20 bg-brand-accent rounded-full flex items-center justify-center absolute -top-10 border-4 border-white shadow-lg">
-                        <i class="fa-solid fa-rocket text-3xl text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-brand-accent mt-8 mb-2">خوش‌بینانه</h3>
-                    <p class="text-center text-sm text-gray-700 font-bold">تسخیر جایگاه‌های Top 3 در کلمات پرجستجو و تبدیل شدن به مرجع فروش اقساطی.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 25 -->
-        <div class="slide slide-dark" id="slide-25">
-            <div class="flex justify-between items-end mb-6 animate-on-load">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2 text-white">اگر فقط رتبه‌های از دست رفته را پس بگیریم...</h2>
-                    <p class="text-brand-accent2">پیش‌بینی ورودی ماهانه بر اساس جایگاه</p>
-                </div>
-                <div class="bg-brand-accent text-white px-6 py-2 rounded-lg font-bold text-xl shadow-lg animate-pulse">
-                    ورودی روزانه (Top 3): ۶۱۴ نفر خریدار واقعی
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl overflow-hidden shadow-2xl h-[70%] animate-on-load delay-200">
-                <div class="overflow-y-auto h-full custom-scrollbar p-2">
-                    <table class="w-full text-right text-gray-800 text-sm">
-                        <thead class="sticky top-0 bg-gray-100 z-10 shadow-sm">
-                            <tr class="text-gray-600">
-                                <th class="p-3 font-bold border-b">Top queries</th>
-                                <th class="p-3 font-bold border-b text-center bg-gray-50">کلیک فعلی (Monthly)</th>
-                                <th class="p-3 font-bold border-b text-center text-brand-blue">پتانسیل رتبه ۱</th>
-                                <th class="p-3 font-bold border-b text-center text-brand-accent">پتانسیل Top 3</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Selected high impact rows for visual brevity, standard HTML for rest -->
-                            <tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">گوشی قسطی</td><td class="p-3 text-center">2766</td><td class="p-3 text-center font-bold text-brand-blue">5272.75</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50">3766.25</td></tr>
-                            <tr class="border-b hover:bg-gray-50 bg-gray-50/50"><td class="p-3 font-bold">خرید گوشی قسطی</td><td class="p-3 text-center">2195</td><td class="p-3 text-center font-bold text-brand-blue">4284.7</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50/50">3060.5</td></tr>
-                            <tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">خرید قسطی گوشی</td><td class="p-3 text-center">1636</td><td class="p-3 text-center font-bold text-brand-blue">3269.7</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50">2335.5</td></tr>
-                            <tr class="border-b hover:bg-gray-50 bg-gray-50/50"><td class="p-3 font-bold">لپ تاپ قسطی</td><td class="p-3 text-center">956</td><td class="p-3 text-center font-bold text-brand-blue">1199.1</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50/50">856.5</td></tr>
-                            <tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">خرید لپ تاپ قسطی</td><td class="p-3 text-center">727</td><td class="p-3 text-center font-bold text-brand-blue">944.65</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50">674.75</td></tr>
-                            <tr class="border-b hover:bg-gray-50 bg-gray-50/50"><td class="p-3 font-bold">موبایل قسطی</td><td class="p-3 text-center">699</td><td class="p-3 text-center font-bold text-brand-blue">1160.6</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50/50">829</td></tr>
-                            <tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">خرید قسطی لپ تاپ</td><td class="p-3 text-center">421</td><td class="p-3 text-center font-bold text-brand-blue">611.45</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50">436.75</td></tr>
-                            <tr class="border-b hover:bg-gray-50 bg-gray-50/50"><td class="p-3 font-bold">ps4 قسطی</td><td class="p-3 text-center">188</td><td class="p-3 text-center font-bold text-brand-blue">356.65</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50/50">254.75</td></tr>
-                            <tr class="border-b hover:bg-gray-50"><td class="p-3 font-bold">خرید اقساطی ps5</td><td class="p-3 text-center">112</td><td class="p-3 text-center font-bold text-brand-blue">235.9</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50">168.5</td></tr>
-                            <tr class="border-b hover:bg-gray-50 bg-gray-50/50"><td class="p-3 font-bold">خرید کیس گیمینگ...</td><td class="p-3 text-center">94</td><td class="p-3 text-center font-bold text-brand-blue">484.4</td><td class="p-3 text-center font-bold text-brand-accent bg-orange-50/50">346</td></tr>
-                        </tbody>
-                        <tfoot class="bg-brand-navy text-white sticky bottom-0">
-                            <tr>
-                                <td class="p-4 font-bold text-lg">جمع‌بندی ورودی روزانه</td>
-                                <td class="p-4 text-center font-bold text-lg">475.7</td>
-                                <td class="p-4 text-center font-bold text-lg">860.79</td>
-                                <td class="p-4 text-center font-bold text-xl text-brand-accent">614.85</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- اسلاید 26 -->
-        <div class="slide" id="slide-26">
-            <h2 class="text-4xl font-bold text-center text-brand-navy mb-12 animate-on-load">مدل همکاری (فاز اول)</h2>
-            
-            <div class="flex justify-center gap-6 h-[70%] max-w-6xl mx-auto animate-on-load delay-200">
-                
-                <!-- Base -->
-                <div class="w-1/3 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition flex flex-col overflow-hidden">
-                    <div class="p-6 text-center border-b border-gray-100 bg-gray-50">
-                        <h3 class="text-xl font-bold text-gray-700 mb-2">پایه</h3>
-                        <p class="text-3xl font-bold text-brand-navy">۲۵ <span class="text-base font-normal text-gray-500">میلیون تومان / ماه</span></p>
-                    </div>
-                    <div class="p-6 flex-1 text-sm text-gray-600">
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>طراحی استراتژی سئو مبتنی بر فرصت‌های رشد</span></li>
-                            <li class="flex items-start gap-2 text-gray-400"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>منتورینگ تیم سئو و محتوا</span></li>
-                            <li class="flex items-start gap-2 text-gray-400"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>بررسی وضعیت تکنیکال سئو</span></li>
-                            <li class="flex items-start gap-2 text-gray-400"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>نظارت بر اجرای صحیح فرآیندها</span></li>
-                            <li class="flex items-start gap-2 text-gray-400"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>نگارش محتوا صفحات هدف</span></li>
-                            <li class="flex items-start gap-2 text-gray-400"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>گزارش ماهانه + پرسش و پاسخ</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Standard (Highlighted) -->
-                <div class="w-1/3 bg-white border-2 border-brand-accent rounded-2xl shadow-xl transform scale-105 z-10 flex flex-col overflow-hidden relative">
-                    <div class="absolute top-0 right-0 bg-brand-accent text-white px-4 py-1 text-xs font-bold rounded-bl-lg">پیشنهادی</div>
-                    <div class="p-6 text-center border-b border-gray-100 bg-orange-50/30">
-                        <h3 class="text-2xl font-bold text-brand-accent mb-2">استاندارد</h3>
-                        <p class="text-4xl font-bold text-brand-navy">۴۵ <span class="text-base font-normal text-gray-500">میلیون تومان / ماه</span></p>
-                    </div>
-                    <div class="p-6 flex-1 text-sm text-gray-800 font-medium">
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>طراحی استراتژی سئو مبتنی بر فرصت‌های رشد</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>منتورینگ تیم سئو و محتوا <strong>(۴ جلسه در ماه)</strong></span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>بررسی وضعیت تکنیکال سئو</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>نظارت بر اجرای صحیح فرآیندها</span></li>
-                            <li class="flex items-start gap-2 text-gray-400 font-normal"><i class="fa-solid fa-xmark text-red-300 mt-1"></i> <span>نگارش محتوا صفحات هدف</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> <span>گزارش ماهانه + <strong>۱ جلسه</strong> با کارفرما</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Gold -->
-                <div class="w-1/3 bg-brand-navy border border-brand-navy rounded-2xl shadow-lg flex flex-col overflow-hidden text-white">
-                    <div class="p-6 text-center border-b border-gray-700 bg-brand-blue">
-                        <h3 class="text-xl font-bold text-yellow-500 mb-2">طلایی</h3>
-                        <p class="text-3xl font-bold text-white">۸۰ <span class="text-base font-normal text-gray-400">میلیون تومان / ماه</span></p>
-                    </div>
-                    <div class="p-6 flex-1 text-sm text-gray-300">
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span>طراحی استراتژی سئو</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span>منتورینگ تیم <strong>(۸ جلسه در ماه)</strong></span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span>بررسی وضعیت تکنیکال سئو</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span>نظارت بر اجرای صحیح فرآیندها</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span class="text-white font-bold">نگارش محتوا صفحات لندینگ و محصول توسط تیم مشاور</span></li>
-                            <li class="flex items-start gap-2"><i class="fa-solid fa-check text-yellow-500 mt-1"></i> <span>گزارش ماهانه مستمر</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- اسلاید 27 -->
-        <div class="slide slide-dark" id="slide-27">
-            <div class="flex flex-col items-center justify-center h-full text-center animate-on-load">
-                <h2 class="text-5xl font-bold mb-16 text-white">از کجا شروع کنیم؟</h2>
-                
-                <div class="flex justify-center gap-12 w-full max-w-4xl">
-                    <div class="flex flex-col items-center flex-1 bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition cursor-pointer">
-                        <i class="fa-solid fa-chess-knight text-5xl text-brand-accent mb-6"></i>
-                        <h3 class="text-2xl font-bold text-white mb-2">Strategist</h3>
-                        <p class="text-gray-400 text-sm">تدوین نقشه راه دقیق</p>
-                    </div>
-                    
-                    <div class="flex flex-col items-center flex-1 bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition cursor-pointer">
-                        <i class="fa-solid fa-user-tie text-5xl text-brand-accent2 mb-6"></i>
-                        <h3 class="text-2xl font-bold text-white mb-2">Consultant</h3>
-                        <p class="text-gray-400 text-sm">همراهی در تصمیمات کلان</p>
-                    </div>
-                    
-                    <div class="flex flex-col items-center flex-1 bg-white/5 p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition cursor-pointer">
-                        <i class="fa-solid fa-chalkboard-user text-5xl text-green-400 mb-6"></i>
-                        <h3 class="text-2xl font-bold text-white mb-2">Mentor</h3>
-                        <p class="text-gray-400 text-sm">ارتقای سطح تیم داخلی</p>
-                    </div>
-                </div>
-                
-                <p class="mt-16 text-xl text-gray-300 font-light max-w-2xl border-t border-gray-700 pt-8">
-                    کاهش ریسک تصمیم‌گیری برای کارفرما از طریق شفافیت در نقش‌ها و مسئولیت‌ها.
-                </p>
-            </div>
-        </div>
-
-        <!-- اسلاید 28 -->
-        <div class="slide slide-accent justify-center items-center text-center" id="slide-28">
-            <div class="animate-on-load w-full max-w-4xl relative">
-                <h2 class="text-6xl font-bold mb-16 text-white tracking-wide">چشم‌انداز نهایی</h2>
-                
-                <div class="grid grid-cols-2 grid-rows-2 gap-4 w-64 h-64 mx-auto mb-12 relative z-10">
-                    <div class="bg-white text-brand-navy rounded-tl-3xl rounded-br-md flex items-center justify-center font-bold text-2xl shadow-lg transform hover:scale-105 transition">SEO</div>
-                    <div class="bg-brand-navy text-white rounded-tr-3xl rounded-bl-md flex items-center justify-center font-bold text-xl shadow-lg transform hover:scale-105 transition">Marketing</div>
-                    <div class="bg-brand-navy text-white rounded-bl-3xl rounded-tr-md flex items-center justify-center font-bold text-2xl shadow-lg transform hover:scale-105 transition">Sales</div>
-                    <div class="bg-white text-brand-navy rounded-br-3xl rounded-tl-md flex items-center justify-center font-bold text-2xl shadow-lg transform hover:scale-105 transition">BI</div>
-                </div>
-                
-                <!-- Overlay circle to bind them -->
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 border-4 border-white/30 rounded-full z-0"></div>
-
-                <div class="bg-black/20 backdrop-blur inline-block px-8 py-4 rounded-2xl">
-                    <p class="text-2xl text-white font-bold"><i class="fa-solid fa-layer-group ml-2"></i> همگی روی یک داشبورد و در یک مسیر</p>
-                </div>
-            </div>
-        </div>
-
+        <!-- دکمه‌های ناوبری (Controls) -->
         <div id="controls">
-            <button onclick="prevSlide()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition" title="اسلاید قبلی (کلید چپ)">
-                <i class="fa-solid fa-chevron-right"></i> <!-- Right icon because RTL -->
-            </button>
-            <span id="slide-counter" class="font-bold text-sm mx-2 w-12 text-center" style="font-family: monospace;">1 / 28</span>
-            <button onclick="nextSlide()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition" title="اسلاید بعدی (کلید راست/Space)">
-                <i class="fa-solid fa-chevron-left"></i> <!-- Left icon because RTL -->
-            </button>
+            <button id="prev-btn" class="hover:text-brand-accent transition duration-200 text-lg px-2"><i class="fa-solid fa-chevron-right"></i> قبلی</button>
+            <span id="slide-counter" class="font-bold border-x px-4 border-gray-300">1 / 13</span>
+            <button id="next-btn" class="hover:text-brand-accent transition duration-200 text-lg px-2">بعدی <i class="fa-solid fa-chevron-left"></i></button>
         </div>
 
     </div>
 
     <script>
         let currentSlide = 1;
-        const totalSlides = 28;
-        const slides = document.querySelectorAll('.slide');
-        const counter = document.getElementById('slide-counter');
+        const totalSlides = 13;
 
-        function updateSlide() {
-            // Hide all
-            slides.forEach(slide => {
+        function showSlide(index) {
+            if (index < 1) index = totalSlides;
+            if (index > totalSlides) index = 1;
+
+            document.querySelectorAll('.slide').forEach(slide => {
                 slide.classList.remove('active');
             });
-            
-            // Show current
-            const activeSlide = document.getElementById(`slide-${currentSlide}`);
-            if(activeSlide) {
+
+            const activeSlide = document.getElementById(`slide-${index}`);
+            if (activeSlide) {
                 activeSlide.classList.add('active');
+                currentSlide = index;
+                updateControls();
+            }
+        }
+
+        function updateControls() {
+            const counter = document.getElementById('slide-counter');
+            if (counter) {
+                counter.innerText = `${currentSlide} / ${totalSlides}`;
             }
             
-            // Update counter
-            counter.innerText = `${currentSlide} / ${totalSlides}`;
-        }
-
-        function nextSlide() {
-            if (currentSlide < totalSlides) {
-                currentSlide++;
-                updateSlide();
+            // تغییر تِم کنترلر دکمه‌ها در اسلایدهای تاریک
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            const controls = document.getElementById('controls');
+            if (activeSlide && controls) {
+                if (activeSlide.classList.contains('slide-dark')) {
+                    controls.style.background = 'rgba(10, 25, 47, 0.9)';
+                    controls.style.color = '#E6F1FF';
+                    controls.style.borderColor = '#112240';
+                } else {
+                    controls.style.background = 'rgba(255, 255, 255, 0.9)';
+                    controls.style.color = '#0A192F';
+                    controls.style.borderColor = '#f1f5f9';
+                }
             }
         }
 
-        function prevSlide() {
-            if (currentSlide > 1) {
-                currentSlide--;
-                updateSlide();
-            }
-        }
+        document.getElementById('prev-btn').addEventListener('click', () => showSlide(currentSlide - 1));
+        document.getElementById('next-btn').addEventListener('click', () => showSlide(currentSlide + 1));
 
-        // Keyboard navigation
+        // کنترل با کلیدهای جهت‌نما کیبورد (راست و چپ)
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === ' ') {
-                // In RTL logic, Left arrow usually means "Next" physically, but mapped logically to next slide.
-                nextSlide();
-            } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-                prevSlide();
+            if (e.key === 'ArrowRight') {
+                showSlide(currentSlide - 1); // جهت RTL راست به قبلی می‌رود
+            } else if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide + 1); // چپ به بعدی می‌رود
             }
         });
 
-        // Simple Touch Swipe for mobile/tablets
-        let touchstartX = 0;
-        let touchendX = 0;
-
-        document.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        });
-
-        document.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            // In RTL, swiping right (touchstartX < touchendX) goes to Next slide.
-            if (touchendX - touchstartX > 50) nextSlide(); 
-            if (touchstartX - touchendX > 50) prevSlide(); 
-        }
-
-        // Initialize
-        updateSlide();
+        // شروع از اسلاید اول
+        showSlide(1);
     </script>
 </body>
 </html>
